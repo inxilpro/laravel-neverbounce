@@ -35,6 +35,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Caching
+    |--------------------------------------------------------------------------
+    |
+    | By default, each call to NeverBounce::valid() will make a request to the
+    | NeverBounce API. If you would like to cache results instead, you can
+    | enable it below.
+    |
+    */
+
+    'cache' => [
+        'enabled' => false,
+        'expiration' => 1440, // 1 day in minutes
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Optional Settings
     |--------------------------------------------------------------------------
     |

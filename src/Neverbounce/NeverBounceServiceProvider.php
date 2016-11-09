@@ -2,6 +2,7 @@
 
 namespace Groundsix\Neverbounce;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use NeverBounce;
 use NeverBounce\API\NB_Auth;
@@ -47,8 +48,14 @@ class NeverBounceServiceProvider extends ServiceProvider
 
             return NB_Single::app();
         });
-        $this->app->singleton(NeverBounce::class, function ($app) {
-            return new NeverBounce($this->app->make(NB_Single::class));
+        
+        $this->app->singleton(NeverBounce::class, function ($app) use ($config) {
+            $single = $app->make(NB_Single::class);
+            $validResults = Arr::get($config, 'valid_results', 'valid');
+            $cacheEnabled = Arr::get($config, 'cache.enabled', false);
+            $cacheExpiration = Arr::get($config, 'cache.expiration', 1440);
+
+            return new NeverBounce($single, $validResults, $cacheEnabled, $cacheExpiration);
         });
     }
 }
